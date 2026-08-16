@@ -1,5 +1,6 @@
 import React from "react";
 import { CourseList } from "@/features/courses/components/CourseList";
+import { AssignmentList } from "@/features/assignments/components/AssignmentList";
 
 export default function DashboardPage() {
   // Mock data representing the student's metrics.
@@ -54,9 +55,14 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* Course List Module */}
-      <section>
-        <CourseList />
+      {/* Main Content Grid (Courses & Assignments) */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <CourseList />
+        </div>
+        <div className="lg:col-span-1">
+          <AssignmentList />
+        </div>
       </section>
     </div>
   );
