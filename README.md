@@ -5,7 +5,7 @@ A modern, responsive student dashboard built as part of the frontend engineering
 ## Submission
 
 - **GitHub Repository:** [https://github.com/kbastrzyk-dev/nextjs-student-dashboard]
-- **Live Deployment:** SOON
+- **Live Deployment:** [https://mpcircle.bastrzyk.dev]
 - **Engineering Reflection:** Please see `THINKING.md` for answers to the reflection questions.
 
 ---
