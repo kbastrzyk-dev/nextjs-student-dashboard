@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-// Navigation items configuration
-const navItems = [
-  { name: "Dashboard", path: "/dashboard" },
-  { name: "Courses", path: "/dashboard/courses" },
-  { name: "Assignments", path: "/dashboard/assignments" },
-];
+import { NAV_ITEMS } from "@/config/navigation"; // Import Single Source of Truth
 
 export const Sidebar = () => {
   const pathname = usePathname();
@@ -18,7 +12,7 @@ export const Sidebar = () => {
       <h1 className="text-xl font-bold text-white mb-8">MPCircle</h1>
       <nav className="text-gray-400">
         <ul className="space-y-4">
-          {navItems.map((item) => {
+          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.path;
             return (
               <li key={item.path}>

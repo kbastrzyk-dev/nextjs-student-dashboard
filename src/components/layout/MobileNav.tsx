@@ -3,13 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-// Configuration of navigation items for the mobile navigation menu
-const navItems = [
-  { name: "Dashboard", path: "/dashboard" },
-  { name: "Courses", path: "/dashboard/courses" },
-  { name: "Assignments", path: "/dashboard/assignments" },
-];
+import { NAV_ITEMS } from "@/config/navigation"; // Import Single Source of Truth
 
 export const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +52,7 @@ export const MobileNav = () => {
         <div className="absolute left-0 right-0 top-[69px] bg-gray-900 z-10 p-6 border-b border-gray-800 shadow-xl">
           <nav className="text-gray-400">
             <ul className="space-y-4">
-              {navItems.map((item) => {
+              {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.path;
                 return (
                   <li key={item.path}>
