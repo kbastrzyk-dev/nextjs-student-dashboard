@@ -1,37 +1,7 @@
-import React from "react";
-import { Course, CourseStatus } from "../types";
+"use client";
 
-// Mock data:
-const MOCK_COURSES: Course[] = [
-  {
-    id: "1",
-    title: "Machine Learning Fundamentals",
-    lecturer: "Dr. Machine Learner",
-    progress: 75,
-    status: "In Progress",
-  },
-  {
-    id: "2",
-    title: "Advanced Frontend Architecture",
-    lecturer: "Dr. Krzysztof Bastrzyk🫨",
-    progress: 100,
-    status: "Completed",
-  },
-  {
-    id: "3",
-    title: "Relational Database Systems",
-    lecturer: "Dr. SQL Expert",
-    progress: 30,
-    status: "In Progress",
-  },
-  {
-    id: "4",
-    title: "Cloud Computing & Deployment",
-    lecturer: "Dr. Cloudy McCloudface",
-    progress: 0,
-    status: "Not Started",
-  },
-];
+import React, { useEffect, useState } from "react";
+import { Course, CourseStatus } from "../types";
 
 // Helper function to determine badge colors based on strict TS types
 const getStatusColor = (status: CourseStatus) => {
@@ -46,6 +16,52 @@ const getStatusColor = (status: CourseStatus) => {
 };
 
 export const CourseList = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch courses from our internal Next.js API route on component mount
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("/api/courses");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch courses from the API.");
+        }
+
+        const data: Course[] = await response.json();
+        setCourses(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Render loading state
+  if (isLoading) {
+    return (
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 text-center text-gray-400">
+        Loading courses from API...
+      </div>
+    );
+  }
+
+  // Render error state if request failed
+  if (error) {
+    return (
+      <div className="bg-gray-900 border border-red-800/50 rounded-xl p-8 text-center text-red-500">
+        Error: {error}
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm">
       <div className="px-6 py-5 border-b border-gray-800">
@@ -53,7 +69,7 @@ export const CourseList = () => {
       </div>
 
       <div className="divide-y divide-gray-800">
-        {MOCK_COURSES.map((course) => (
+        {courses.map((course) => (
           <div
             key={course.id}
             className="p-6 hover:bg-gray-800/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4"
